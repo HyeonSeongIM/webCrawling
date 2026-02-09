@@ -1,9 +1,14 @@
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from selenium import webdriver
-from PageValidator import PageValidator
-from PageMover import PageMover
-from OptionSearcher import OptionSearcher
-from DataCrawler import DataCrawler
-from DataHandler import DataHandler
+from nuriCrawling.PageValidator import PageValidator
+from nuriCrawling.PageMover import PageMover
+from nuriCrawling.OptionSearcher import OptionSearcher
+from nuriCrawling.DataCrawler import DataCrawler
+from nuriCrawling.DataHandler import DataHandler
 
 def main():
     # 드라이버 설정
