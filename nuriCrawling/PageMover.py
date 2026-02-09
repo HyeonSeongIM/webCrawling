@@ -1,25 +1,30 @@
-# 해당 페이지 이동 로직들 넣기
 import time
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class PageMover:
     def __init__(self, driver, validator):
         self.driver = driver
-        self.validator = validator # 로딩 대기를 위해 validator 객체를 전달받음
+        self.validator = validator
+        self.wait = WebDriverWait(self.driver, 15)
 
     """누리장터 > 입찰공고 > 입찰공고 목록 메뉴로 이동"""
 
-    def move_to_bid_list(self):
-        print("[Mover] 입찰공고 목록 페이지로 이동 중...")
+    def move_to_menu(self, menu_name, sub_menu_name):
+        """텍스트 기반으로 메뉴 이동 (확장성 확보)"""
+        print(f"[Mover] {menu_name} > {sub_menu_name} 메뉴로 이동 중...")
 
-        # 1. 메인 메뉴 '입찰공고' 클릭
-        menu_bid = self.driver.find_element(By.ID, "mf_wfm_gnb_wfm_gnbMenu_genDepth1_1_btn_menuLvl1_span")
-        self.driver.execute_script("arguments[0].click();", menu_bid)
-        time.sleep(1)
+        # 1. 메인 메뉴 클릭
+        main_xpath = f"//span[contains(normalize-space(), '{menu_name}')]"
+        menu_main = self.wait.until(EC.element_to_be_clickable((By.XPATH, main_xpath)))
+        self.driver.execute_script("arguments[0].click();", menu_main)
+        time.sleep(1.5)
 
-        # 2. 서브 메뉴 '입찰공고 목록' 클릭
-        menu_list = self.driver.find_element(By.ID, "mf_wfm_gnb_wfm_gnbMenu_genDepth1_1_genDepth2_0_genDepth3_0_btn_menuLvl3_span")
-        self.driver.execute_script("arguments[0].click();", menu_list)
+        # 2. 서브 메뉴 클릭
+        sub_xpath = f"//span[contains(., '{sub_menu_name}')]"
+        menu_sub = self.wait.until(EC.presence_of_element_located((By.XPATH, sub_xpath)))
+        self.driver.execute_script("arguments[0].click();", menu_sub)
 
         # 이동 후 로딩 대기
         self.validator.wait_for_loading()

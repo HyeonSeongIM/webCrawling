@@ -29,7 +29,7 @@ def main():
         validator.wait_for_loading() # 페이지 안정화 대기
 
         # 메뉴 이동
-        mover.move_to_bid_list()
+        mover.move_to_menu("입찰공고", "입찰공고목록")
 
         # 검색 옵션 설정 및 실행
         searcher.execute_search()
