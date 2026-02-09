@@ -46,7 +46,6 @@ class DataCrawler:
 
             # 4. 상세 페이지 로드 대기 (안정성을 위해 넉넉히)
             self.validator.wait_for_loading()
-            time.sleep(3)
 
             # 5. 상세 데이터 수집 (딕셔너리 구조)
             detail_info = {"목록_입찰공고번호": bid_no}
@@ -76,7 +75,6 @@ class DataCrawler:
                         break
 
             self.validator.wait_for_loading()
-            time.sleep(2)
 
             return detail_info
 
@@ -88,7 +86,6 @@ class DataCrawler:
         for p in range(1, target_pages + 1):
             print(f"\n[Crawler] {p}페이지 데이터 수집 시작")
             self.validator.wait_for_loading()
-            time.sleep(2) # 테이블 렌더링 보장
 
             rows = self.driver.find_elements(By.CSS_SELECTOR, "#mf_wfm_container_grdBidPbancList_body_table tr")
             row_count = len(rows)
