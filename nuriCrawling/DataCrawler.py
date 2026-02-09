@@ -1,4 +1,3 @@
-import time
 import re
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,6 +9,7 @@ class DataCrawler:
         self.validator = validator
         self.mover = mover
         self.collected_data = []
+        self.wait = WebDriverWait(self.driver, 15)
 
     def clean_text(self, text):
         if not text: return ""
@@ -20,12 +20,14 @@ class DataCrawler:
         try:
             # 1. 행 목록 최신화
             self.validator.wait_for_loading()
-            rows = self.driver.find_elements(By.CSS_SELECTOR, "#mf_wfm_container_grdBidPbancList_body_table tr")
 
-            if index >= len(rows): return None
-            row = rows[index]
+            data_rows_xpath = "//table[@id='mf_wfm_container_grdBidPbancList_body_table']//tr[td]"
 
-            # 2. 행 내부의 모든 칸(td) 수집
+            # 2. 해당 인덱스의 행을 다시 찾음
+            # index가 0이면 첫 번째 데이터 행을 정확히 지목합니다.
+            target_row_xpath = f"({data_rows_xpath})[{index + 1}]"
+
+            row = self.wait.until(EC.presence_of_element_located((By.XPATH, target_row_xpath)))
             cells = row.find_elements(By.TAG_NAME, "td")
 
             # 누리장터 그리드 기준 (스크린샷 참고):
@@ -82,13 +84,13 @@ class DataCrawler:
             print(f"      ! {index+1}번째 공고 상세 수집 중 예외 발생: {str(e)[:50]}")
             return None
 
-    def start_collection(self, target_pages=1):
+    def start_collection(self, target_pages):
         for p in range(1, target_pages + 1):
             print(f"\n[Crawler] {p}페이지 데이터 수집 시작")
             self.validator.wait_for_loading()
 
             rows = self.driver.find_elements(By.CSS_SELECTOR, "#mf_wfm_container_grdBidPbancList_body_table tr")
-            row_count = len(rows)
+            row_count = len(rows) - 1
             print(f"   (발견된 행: {row_count}개)")
 
             for i in range(row_count):
