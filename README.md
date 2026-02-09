@@ -44,30 +44,10 @@ chmod +x run.sh
 * **DataHandler**: 수집 데이터의 다중 포맷(CSV, JSON) 저장 및 파이프라인 담당
 * **DataValidator***: 수집 데이터의 중복 여부 판단 담당
 
-rico_assignment_2/
-├── nuriCrawling/                # 크롤링 핵심 엔진 모듈 폴더
-│   ├── __init__.py              # 패키지 초기화 파일
-│   ├── DataCrawler.py           # 데이터 수집 및 상세 페이지 순회 로직
-│   ├── DataHandler.py           # 데이터 저장(CSV/JSON) 및 전처리 담당
-│   ├── DataValidator.py         # 체크포인트 기록 및 중복 수집 방지
-│   ├── OptionSearcher.py        # 검색 조건 설정 및 조회 실행
-│   ├── PageMover.py             # 메뉴 이동 및 페이지네이션 제어
-│   └── PageValidator.py         # 팝업 제거 및 로딩 상태 검증
-├── tests/                       # 단위 테스트 모음 폴더
-│   ├── __init__.py              # 테스트 패키지 초기화
-│   ├── test_DataCrawler.py      # 수집 엔진 단위 테스트
-│   ├── test_DataHandler.py      # 저장 모듈 단위 테스트
-│   ├── test_DataValidator.py    # 검증 모듈 단위 테스트
-│   ├── test_OptionSearcher.py   # 검색 모듈 단위 테스트
-│   ├── test_PageMover.py        # 이동 모듈 단위 테스트
-│   └── test_PageValidator.py    # 환경 검증 모듈 단위 테스트
-├── results/                     # 수집 결과물 및 체크포인트 파일 저장 폴더
-│   └── collected_ids.txt        # 수집 완료된 공고 ID 기록 파일 (이어받기용)
-├── main.py                      # 프로젝트 전체 실행 진입점
-├── README.md                    # 프로젝트 명세 및 실행 가이드
-├── requirements.txt             # 의존성 라이브러리 목록 (selenium, pandas 등)
-├── run.sh                       # 리눅스/맥 환경 실행 스크립트
-└── rico_assignment_2.iml        # IntelliJ 프로젝트 설정 파일
+  
+<img width="657" height="506" alt="스크린샷 2026-02-09 오후 10 38 12" src="https://github.com/user-attachments/assets/1c024258-c64e-4c16-88f9-184e6cbb121b" />
+
+
 
 ### 2) 모듈 분리 설계 근거
 
