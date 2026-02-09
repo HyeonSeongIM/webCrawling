@@ -35,7 +35,7 @@ def main():
         searcher.execute_search("검색")
 
         # 상세 수집 및 루프
-        final_data = crawler.start_collection(target_pages=2)
+        final_data = crawler.start_collection(2)
 
         # 데이터 핸들러에 전달
         for item in final_data:
