@@ -24,8 +24,7 @@ class OptionSearcher:
         # 2. 안전성: 자바스크립트 클릭
         self.driver.execute_script("arguments[0].click();", search_btn)
 
-        # 4. 스마트 대기: 5초 무조건 대기 대신, 결과 테이블의 첫 번째 행이 나타날 때까지 대기
-        # 데이터가 0건일 수도 있으므로 Timeout 처리를 유연하게 함
+        # TODO : 데이터가 0건일 수도 있으므로 Timeout 처리
         print("[Searcher] 데이터 결과 렌더링 확인 중...")
 
     """상세 페이지에서 에러 발생 시 목록으로 돌아왔는지 확인하는 안전장치"""
