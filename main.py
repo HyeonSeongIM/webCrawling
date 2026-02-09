@@ -32,7 +32,7 @@ def main():
         mover.move_to_menu("입찰공고", "입찰공고목록")
 
         # 검색 옵션 설정 및 실행
-        searcher.execute_search()
+        searcher.execute_search("검색")
 
         # 상세 수집 및 루프
         final_data = crawler.start_collection(target_pages=2)
