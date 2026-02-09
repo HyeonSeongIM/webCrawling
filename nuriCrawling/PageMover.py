@@ -35,10 +35,17 @@ class PageMover:
     def move_to_next_page(self, page_num):
         print(f"[Mover] {page_num}페이지로 이동 시도...")
         try:
-            next_xpath = f"//div[contains(@class, 'w2pageList')]//a[text()='{page_num}']"
-            next_btn = self.driver.find_element(By.XPATH, next_xpath)
+            next_xpath = f"//a[contains(@class, 'page') or parent::div[contains(@class, 'page') or contains(@class, 'List')]][normalize-space()='{page_num}']"
+
+            next_btn = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, next_xpath))
+            )
+
             self.driver.execute_script("arguments[0].click();", next_btn)
+
             self.validator.wait_for_loading()
+            time.sleep(1.5)
             return True
-        except:
+        except Exception as e:
+            print(f"[Mover] {page_num}페이지 이동 실패 (이유: {type(e).__name__})")
             return False
