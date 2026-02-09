@@ -1,0 +1,11 @@
+# 핵심 크롤링 라이브러리
+selenium==4.15.2
+
+# 데이터 처리 및 CSV 저장
+pandas==2.1.3
+
+# 크롬 드라이버 자동 관리 (권장)
+webdriver-manager==4.0.1
+
+# (선택사항) 단위 테스트 실행 보조
+unittest-xml-reporting==3.2.0
