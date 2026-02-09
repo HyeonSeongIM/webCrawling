@@ -9,6 +9,7 @@ from nuriCrawling.PageMover import PageMover
 from nuriCrawling.OptionSearcher import OptionSearcher
 from nuriCrawling.DataCrawler import DataCrawler
 from nuriCrawling.DataHandler import DataHandler
+from nuriCrawling.DataValidator import DataValidator
 
 def main():
     # 드라이버 설정
@@ -18,9 +19,11 @@ def main():
     # 클래스 인스턴스화
     validator = PageValidator(driver)
     mover = PageMover(driver, validator)
-    searcher = OptionSearcher(driver, validator) # 추가됨
-    crawler = DataCrawler(driver, validator, mover)
+    searcher = OptionSearcher(driver, validator)
+    data_validator = DataValidator()
+    crawler = DataCrawler(driver, validator, mover, data_validator)
     handler = DataHandler()
+
 
     try:
         # 사이트 접속 및 상태 검증
@@ -35,7 +38,7 @@ def main():
         searcher.execute_search("검색")
 
         # 상세 수집 및 루프
-        final_data = crawler.start_collection(2)
+        final_data = crawler.start_collection(10)
 
         # 데이터 핸들러에 전달
         for item in final_data:
@@ -46,7 +49,7 @@ def main():
 
     finally:
         # 데이터 저장
-        handler.save_to_csv()
+        handler.save()
         print("[Main] 브라우저를 종료합니다.")
         driver.quit()
 

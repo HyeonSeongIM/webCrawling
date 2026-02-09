@@ -4,12 +4,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 class DataCrawler:
-    def __init__(self, driver, validator, mover):
+    def __init__(self, driver, validator, mover, data_validator):
         self.driver = driver
         self.validator = validator
         self.mover = mover
         self.collected_data = []
         self.wait = WebDriverWait(self.driver, 15)
+        self.data_validator = data_validator
 
         # 주요 선택자를 변수로 관리
         # 나중에 ID가 바뀌면 이 부분만 수정
@@ -38,6 +39,11 @@ class DataCrawler:
 
             # 인덱스 번호를 직접 쓰지 않고 의미 있는 변수에 할당
             bid_no = self.clean_text(cells[1].get_attribute('textContent'))
+
+            if self.data_validator.is_already_collected(bid_no):
+                print(f"   -> ({index + 1}) [Skip] 이미 수집된 공고: {bid_no}")
+                return None
+
             print(f"   -> ({index + 1}) 상세 진입 시도: {bid_no}")
 
             # 2. 상세 페이지 진입
@@ -51,6 +57,9 @@ class DataCrawler:
 
             # 3. 상세 데이터 수집
             detail_info = self._extract_detail_data(bid_no)
+
+            if detail_info:
+                self.data_validator.record_success(bid_no)
 
             # 4. 목록으로 안전하게 복귀
             self._return_to_list()
